@@ -961,7 +961,7 @@ function applyFilters() {
         const orig = nameLink.textContent;
         if (searchQuery && orig.toLowerCase().includes(searchQuery)) {
           const re = new RegExp(`(${searchQuery.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');
-          nameLink.innerHTML = orig.replace(re, '<mark>$1</mark>') + '↗';
+          nameLink.innerHTML = orig.replace(re, '<mark>$1</mark>');
         } else if (!searchQuery) {
           nameLink.textContent = orig;
         }
