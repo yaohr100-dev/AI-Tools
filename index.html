@@ -48,8 +48,8 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .btn-icon:active{transform:scale(0.93)}
 .btn-icon .badge{position:absolute;top:3px;right:3px;min-width:17px;height:17px;border-radius:9px;background:var(--favorite);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 5px;box-shadow:0 2px 6px rgba(244,63,94,0.4)}
 .btn-icon .badge.visible{display:flex}
-.btn-lang{font-size:13px;font-weight:700;width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:transparent;color:var(--text-secondary);display:flex;align-items:center;justify-content:center;transition:all 0.2s var(--ease)}
-.btn-lang:hover{background:var(--accent-light);color:var(--accent)}
+.btn-lang{font-size:12px;font-weight:700;height:36px;padding:0 14px;border-radius:18px;border:2px solid var(--accent);cursor:pointer;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;gap:5px;transition:all 0.2s var(--ease);white-space:nowrap}
+.btn-lang:hover{background:var(--accent);color:#fff;box-shadow:0 4px 12px var(--accent-glow)}
 
 .layout{display:flex;max-width:1540px;margin:0 auto}
 .sidebar{width:276px;flex-shrink:0;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto;padding:20px 14px 24px;border-right:1px solid var(--border-light);background:var(--surface-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background 0.35s var(--ease),transform 0.35s var(--ease-out);scrollbar-width:thin;scrollbar-color:var(--border) transparent;display:flex;flex-direction:column;gap:10px}
@@ -269,7 +269,7 @@ mark{background:rgba(255,225,80,0.45);color:inherit;border-radius:2px;padding:0 
     <span class="search-icon">🔍</span>
   </div>
   <div class="header-actions">
-    <button class="btn-lang" onclick="toggleLang()" title="Switch Language / 切换语言" id="langBtn">EN</button>
+    <button class="btn-lang" onclick="toggleLang()" title="Switch Language / 切换语言" id="langBtn">🌐 English</button>
     <button class="btn-icon" onclick="toggleFavoritesFilter()" aria-label="收藏夹" title="查看收藏"><span id="favIcon">🤍</span><span class="badge" id="favBadge">0</span></button>
     <button class="btn-icon" onclick="toggleTheme()" aria-label="切换主题" id="themeBtn" title="切换深色/浅色模式">🌙</button>
     <button class="btn-icon" onclick="showKbdModal()" aria-label="键盘快捷键" title="快捷键">⌨</button>
@@ -289,7 +289,7 @@ mark{background:rgba(255,225,80,0.45);color:inherit;border-radius:2px;padding:0 
     <div class="hero">
       <div class="hero-badge" data-i18n="heroBadge">2026 持续更新</div>
       <h1><span data-i18n="heroTitle1">发现</span><span class="gradient-text" data-i18n="heroTitle2">最好的 AI 工具</span></h1>
-      <p data-i18n="heroDesc">34 个分类 · 160+ 精选工具 · 只收录独立产品<br>支持收藏、筛选、排序与分享，按 ? 查看快捷键</p>
+      <p data-i18n="heroDesc">34 个分类 · 160+ 精选工具 · 只收录独立产品。支持收藏、筛选、排序与分享，按 ? 查看快捷键。</p>
     </div>
 
     <div class="stats">
@@ -355,7 +355,7 @@ mark{background:rgba(255,225,80,0.45);color:inherit;border-radius:2px;padding:0 
 const UI={
   zh:{skipLink:"跳转到主要内容",logo:"AI 工具大全",searchPlaceholder:"搜索 160+ 工具…",sidebarTitle:"分类导航",
     sidebarPlaceholder:"筛选分类…",heroBadge:"2026 持续更新",heroTitle1:"发现",heroTitle2:"最好的 AI 工具",
-    heroDesc:"34 个分类 · 160+ 精选工具 · 只收录独立产品<br>支持收藏、筛选、排序与分享，按 ? 查看快捷键",
+    heroDesc:"34 个分类 · 160+ 精选工具 · 只收录独立产品。支持收藏、筛选、排序与分享，按 ? 查看快捷键",
     statCat:"📂 分类",statTools:"🛠️ 工具",statFree:"🆓/🔓 免费/开源",statFav:"❤️ 已收藏",
     sortDefault:"📋 默认排序",sortAz:"🔤 A → Z",sortZa:"🔤 Z → A",
     btnExport:"📤 导出收藏",btnCopyLinks:"📋 复制可见链接",btnShare:"🔗 分享视图",
@@ -378,7 +378,7 @@ const UI={
   },
   en:{skipLink:"Skip to content",logo:"AI Tools Collection",searchPlaceholder:"Search 160+ tools…",sidebarTitle:"Categories",
     sidebarPlaceholder:"Filter categories…",heroBadge:"Updated 2026",heroTitle1:"Discover the",heroTitle2:"Best AI Tools",
-    heroDesc:"34 categories · 160+ curated tools · standalone products only<br>Bookmark, filter, sort & share. Press ? for shortcuts",
+    heroDesc:"34 categories · 160+ curated tools · standalone products only. Bookmark, filter, sort & share. Press ? for shortcuts",
     statCat:"📂 Categories",statTools:"🛠️ Tools",statFree:"🆓/🔓 Free/OSS",statFav:"❤️ Favorites",
     sortDefault:"📋 Default",sortAz:"🔤 A → Z",sortZa:"🔤 Z → A",
     btnExport:"📤 Export Favorites",btnCopyLinks:"📋 Copy Visible Links",btnShare:"🔗 Share View",
@@ -400,14 +400,15 @@ const UI={
     searchInfo:"🔍 {parts} — {count} tools found"
   }
 };
-let lang=localStorage.getItem('ai-tools-lang')||'zh';
+function detectLang(){const b=navigator.language||navigator.userLanguage||'';return b.startsWith('zh')?'zh':'en';}
+let lang=localStorage.getItem('ai-tools-lang')||detectLang();
 function t(key){return (UI[lang]&&UI[lang][key])||UI.zh[key]||key;}
-function toggleLang(){lang=lang==='zh'?'en':'zh';localStorage.setItem('ai-tools-lang',lang);document.getElementById('langBtn').textContent=lang==='zh'?'EN':'中';applyLang();renderAll();animateStats();if(searchQuery||activeTagFilters.length)applyFilters();}
+function toggleLang(){lang=lang==='zh'?'en':'zh';localStorage.setItem('ai-tools-lang',lang);applyLang();renderAll();animateStats();if(searchQuery||activeTagFilters.length)applyFilters();}
 function applyLang(){
   document.documentElement.lang=lang==='zh'?'zh-CN':'en';
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n'));});
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.getAttribute('data-i18n-placeholder'));});
-  document.getElementById('langBtn').textContent=lang==='zh'?'EN':'中';
+  document.getElementById('langBtn').innerHTML=lang==='zh'?'<span style="font-size:15px">🌐</span> English':'<span style="font-size:15px">🌐</span> 中文';
   document.getElementById('sortSelect').options[0].textContent=t('sortDefault');
   document.getElementById('sortSelect').options[1].textContent=t('sortAz');
   document.getElementById('sortSelect').options[2].textContent=t('sortZa');
