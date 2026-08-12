@@ -706,6 +706,50 @@ let totalTools=0,freeTools=0,activeTagFilters=[],searchQuery='',sortMode='defaul
 let favorites=JSON.parse(localStorage.getItem('ai-tools-favs')||'[]');
 let recentlyViewed=JSON.parse(localStorage.getItem('ai-tools-recent')||'[]');
 let searchDebounce=null,lastScrollY=0;
+let backendAvailable=false;
+
+/* ─── 后端数据同步 ─── */
+async function checkBackend(){
+  try{
+    const r=await fetch('/api/health',{method:'GET',signal:AbortSignal.timeout(2000)});
+    if(!r.ok)return false;
+    const j=await r.json();
+    backendAvailable=(j.status==='ok');
+    if(backendAvailable){
+      // 从后端加载数据（后端数据优先）
+      try{
+        const f=await fetch('/api/favorites');
+        const fdata=await f.json();
+        if(Array.isArray(fdata.favorites)&&fdata.favorites.length>=0){
+          favorites=fdata.favorites;
+          localStorage.setItem('ai-tools-favs',JSON.stringify(favorites));
+        }
+        const rec=await fetch('/api/recent');
+        const rdata=await rec.json();
+        if(Array.isArray(rdata.recent)&&rdata.recent.length>=0){
+          recentlyViewed=rdata.recent;
+          localStorage.setItem('ai-tools-recent',JSON.stringify(recentlyViewed));
+        }
+        await fetch('/api/stats',{method:'POST'});
+      }catch(e){/* 后端数据加载失败，继续用 localStorage */}
+    }
+  }catch(e){backendAvailable=false;}
+  return backendAvailable;
+}
+
+function syncFavorites(){
+  localStorage.setItem('ai-tools-favs',JSON.stringify(favorites));
+  if(backendAvailable){
+    fetch('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({favorites})}).catch(()=>{});
+  }
+}
+
+function syncRecent(){
+  localStorage.setItem('ai-tools-recent',JSON.stringify(recentlyViewed));
+  if(backendAvailable){
+    fetch('/api/recent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recent:recentlyViewed})}).catch(()=>{});
+  }
+}
 
 function renderAll(){
   container.innerHTML='';sidebarNav.innerHTML='';totalTools=0;freeTools=0;
@@ -748,7 +792,7 @@ function toggleFavorite(id,btn){
   const idx=favorites.indexOf(id);
   if(idx>-1){favorites.splice(idx,1);if(btn){btn.classList.remove('active');btn.innerHTML='🤍';}}
   else{favorites.push(id);if(btn){btn.classList.add('active');btn.innerHTML='❤️';}}
-  localStorage.setItem('ai-tools-favs',JSON.stringify(favorites));
+  syncFavorites();
   const card=btn?btn.closest('.tool-card'):document.querySelector(`[data-id="${id}"]`);
   if(card)card.classList.toggle('favorited',favorites.includes(id));
   updateFavCount();if(activeTagFilters.includes('__favs__'))applyFilters();
@@ -803,9 +847,9 @@ function sortAndReinsert(){
     else return;cards.forEach(c=>grid.appendChild(c));
   });
 }
-function trackVisit(id,name,url){recentlyViewed=recentlyViewed.filter(r=>r.id!==id);recentlyViewed.unshift({id,name,url});if(recentlyViewed.length>8)recentlyViewed.pop();localStorage.setItem('ai-tools-recent',JSON.stringify(recentlyViewed));renderRecentBar();}
+function trackVisit(id,name,url){recentlyViewed=recentlyViewed.filter(r=>r.id!==id);recentlyViewed.unshift({id,name,url});if(recentlyViewed.length>8)recentlyViewed.pop();syncRecent();renderRecentBar();}
 function renderRecentBar(){const bar=document.getElementById('recentBar'),chips=document.getElementById('recentChips');if(recentlyViewed.length===0){bar.classList.remove('visible');return;}bar.classList.add('visible');chips.innerHTML=recentlyViewed.map(r=>`<a class="recent-chip" href="${r.url}" target="_blank" rel="noopener" onclick="trackVisit('${r.id}','${r.name}','${r.url}')">${r.name}</a>`).join('');}
-function clearRecent(){recentlyViewed=[];localStorage.setItem('ai-tools-recent','[]');renderRecentBar();}
+function clearRecent(){recentlyViewed=[];syncRecent();renderRecentBar();}
 function buildTagFilter(){
   const bar=document.getElementById('tagFilterBar');bar.querySelectorAll('.tag-filter-chip,.tag-filter-clear').forEach(el=>el.remove());
   const tagCount={};categories.forEach(cat=>{cat.tools.forEach(tool=>{const tg=ttn(tool);tg.forEach(t=>{tagCount[t]=(tagCount[t]||0)+1;});});});
@@ -848,6 +892,11 @@ applyLang();renderAll();animateStats();
 const savedTheme=localStorage.getItem('ai-tools-theme');applyTheme(savedTheme||getSystemTheme());
 window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',e=>{if(!localStorage.getItem('ai-tools-theme'))applyTheme(e.matches?'dark':'light');});
 loadFromHash();window.addEventListener('scroll',handleScroll,{passive:true});
+
+/* 检测后端并同步数据（后端优先，localStorage 兜底） */
+checkBackend().then(ok=>{
+  if(ok){renderAll();updateFavCount();renderRecentBar();}
+});
 document.addEventListener('keydown',(e)=>{
   if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();document.getElementById('searchInput').focus();}
   if(e.key==='Escape'){clearAllFilters();document.getElementById('searchInput').blur();closeKbdModal();closeSidebar();}
