@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 AI 工具大全 — 一站式发现最好的 AI 工具</title>
+<meta name="description" content="覆盖 34 个分类、160+ 精选 AI 工具，从通用助手到创意设计，一站式发现最适合你的 AI 工具。每个工具均可点击直达官网。">
+<style>
+/* ══════════════════════════ Reset & Variables ══════════════════════════ */
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-hover: #f8f9fd;
+  --border: #e4e7f0;
+  --border-light: #eef0f6;
+  --text: #1a1d2e;
+  --text-secondary: #5f6478;
+  --text-muted: #949aaf;
+  --accent: #5c5cf0;
+  --accent-hover: #4a4ae0;
+  --accent-light: #f0f0ff;
+  --accent-glow: rgba(92,92,240,0.15);
+  --gradient-1: #5c5cf0;
+  --gradient-2: #8b5cf6;
+  --gradient-3: #a78bfa;
+  --tag-bg: #f0f2f8;
+  --tag-text: #5f6478;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+[data-theme="dark"] {
+  --bg: #0b0d14;
+  --surface: #141721;
+  --surface-hover: #1a1e2c;
+  --border: #252938;
+  --border-light: #1e2232;
+  --text: #e8eaf0;
+  --text-secondary: #9ca0b0;
+  --text-muted: #646a80;
+  --accent: #7c7cf8;
+  --accent-hover: #9090fa;
+  --accent-light: #1a1a40;
+  --accent-glow: rgba(124,124,248,0.18);
+  --tag-bg: #1e2232;
+  --tag-text: #9ca0b0;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.45);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;
+  transition:background var(--transition),color var(--transition);
+}
+
+/* ══════════════════════════ Scroll Progress ══════════════════════════ */
+.scroll-progress{
+  position:fixed;top:0;left:0;z-index:200;height:3px;
+  background:linear-gradient(90deg,var(--gradient-1),var(--gradient-2),var(--gradient-3));
+  width:0%;transition:width 0.1s linear;border-radius:0 3px 3px 0;
+}
+
+/* ══════════════════════════ Header ══════════════════════════ */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  height:68px;box-shadow:var(--shadow-sm);transition:background var(--transition);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+body[data-theme="dark"] .header{background:rgba(20,23,33,0.85)}
+.header-left{display:flex;align-items:center;gap:14px}
+.logo{
+  font-size:21px;font-weight:800;letter-spacing:-0.3px;white-space:nowrap;
+  background:linear-gradient(135deg,var(--gradient-1),var(--gradient-2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.logo-emoji{font-size:26px;-webkit-text-fill-color:initial}
+.search-wrap{position:relative;flex:1;max-width:420px;margin:0 28px}
+.search-wrap input{
+  width:100%;height:42px;border-radius:21px;border:1.5px solid var(--border);
+  padding:0 48px 0 18px;font-size:14px;outline:none;
+  background:var(--bg);color:var(--text);
+  transition:all var(--transition);
+}
+.search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.search-wrap input::placeholder{color:var(--text-muted)}
+.search-wrap .search-icon{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  color:var(--text-muted);font-size:16px;pointer-events:none;transition:color var(--transition);
+}
+.search-wrap input:focus ~ .search-icon{color:var(--accent)}
+.search-clear{
+  position:absolute;right:40px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--text-muted);cursor:pointer;
+  font-size:14px;display:none;padding:4px;line-height:1;border-radius:50%;
+}
+.search-clear:hover{color:var(--text);background:var(--border)}
+.search-clear.visible{display:block}
+.search-info{
+  text-align:center;padding:8px 0 0;font-size:13px;color:var(--text-muted);display:none;
+}
+.search-info.visible{display:block}
+.header-actions{display:flex;align-items:center;gap:6px}
+.btn-icon{
+  width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
+  background:transparent;color:var(--text-secondary);font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);
+}
+.btn-icon:hover{background:var(--accent-light);color:var(--accent)}
+.btn-icon.kbd-hint{position:relative}
+
+/* ══════════════════════════ Layout ══════════════════════════ */
+.layout{display:flex;max-width:1500px;margin:0 auto}
+.sidebar{
+  width:268px;flex-shrink:0;position:sticky;top:68px;height:calc(100vh - 68px);
+  overflow-y:auto;padding:20px 14px;border-right:1px solid var(--border-light);
+  background:var(--surface);transition:background var(--transition);
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.sidebar::-webkit-scrollbar{width:5px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px}
+.sidebar-header{
+  display:flex;align-items:center;justify-content:space-between;padding:6px 12px 10px;
+}
+.sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);letter-spacing:1.5px}
+.sidebar-count{font-size:11px;color:var(--text-muted);background:var(--tag-bg);padding:2px 8px;border-radius:10px}
+.sidebar-nav{display:flex;flex-direction:column;gap:1px}
+.sidebar-nav a{
+  display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;
+  font-size:13px;color:var(--text-secondary);text-decoration:none;
+  transition:all var(--transition);position:relative;
+}
+.sidebar-nav a:hover{background:var(--accent-light);color:var(--accent)}
+.sidebar-nav a.active{background:var(--accent-light);color:var(--accent);font-weight:600}
+.sidebar-nav a .cat-emoji{font-size:15px;flex-shrink:0}
+.sidebar-nav a .cat-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-nav a .cat-badge{
+  margin-left:auto;font-size:10px;background:var(--tag-bg);color:var(--text-muted);
+  padding:1px 7px;border-radius:8px;font-weight:500;
+}
+
+/* ══════════════════════════ Main ══════════════════════════ */
+.main{flex:1;min-width:0;padding:36px 44px 80px}
+.hero{margin-bottom:36px}
+.hero-badge{
+  display:inline-block;font-size:12px;font-weight:600;color:var(--accent);
+  background:var(--accent-light);padding:4px 14px;border-radius:20px;margin-bottom:16px;
+  letter-spacing:0.5px;
+}
+.hero h1{font-size:40px;font-weight:850;letter-spacing:-1.5px;margin-bottom:10px;line-height:1.15}
+.hero h1 .gradient-text{
+  background:linear-gradient(135deg,var(--gradient-1),var(--gradient-2),var(--gradient-3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero p{color:var(--text-secondary);font-size:16px;max-width:580px;line-height:1.6}
+
+/* ══════════════════════════ Stats ══════════════════════════ */
+.stats{display:flex;gap:16px;margin-bottom:42px;flex-wrap:wrap}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;min-width:130px;box-shadow:var(--shadow);
+  transition:all var(--transition);cursor:default;position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gradient-1),var(--gradient-2));
+  opacity:0;transition:opacity var(--transition);
+}
+.stat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-card:hover::before{opacity:1}
+.stat-number{font-size:36px;font-weight:850;color:var(--accent);letter-spacing:-1px;line-height:1.1}
+.stat-label{font-size:13px;color:var(--text-secondary);margin-top:2px;font-weight:500}
+
+/* ══════════════════════════ Tag Filter Bar ══════════════════════════ */
+.tag-filter-bar{
+  display:flex;align-items:center;gap:8px;margin-bottom:32px;flex-wrap:wrap;
+}
+.tag-filter-bar .label{
+  font-size:13px;font-weight:600;color:var(--text-muted);white-space:nowrap;
+}
+.tag-filter-chip{
+  font-size:12px;padding:5px 14px;border-radius:16px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-secondary);cursor:pointer;
+  transition:all var(--transition);font-weight:500;white-space:nowrap;
+  user-select:none;
+}
+.tag-filter-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light)}
+.tag-filter-chip.active{
+  background:var(--accent);color:#fff;border-color:var(--accent);
+  box-shadow:0 2px 8px var(--accent-glow);
+}
+.tag-filter-clear{
+  font-size:12px;padding:5px 12px;border-radius:16px;border:none;
+  background:transparent;color:var(--text-muted);cursor:pointer;
+  transition:all var(--transition);display:none;
+}
+.tag-filter-clear:hover{color:var(--accent)}
+.tag-filter-clear.visible{display:inline-block}
+
+/* ══════════════════════════ Category Section ══════════════════════════ */
+.category{margin-bottom:52px;scroll-margin-top:90px}
+.category-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  padding-bottom:12px;border-bottom:1px solid var(--border-light);
+}
+.category-icon{
+  width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;background:var(--accent-light);flex-shrink:0;
+}
+.category-text{flex:1}
+.category h2{font-size:20px;font-weight:700;letter-spacing:-0.3px;margin-bottom:2px}
+.category-subtitle{font-size:12px;color:var(--text-muted)}
+.category-count{font-size:13px;color:var(--text-muted);background:var(--tag-bg);padding:4px 12px;border-radius:14px;font-weight:500;white-space:nowrap}
+
+/* ══════════════════════════ Tool Cards ══════════════════════════ */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.tool-card{
+  background:var(--surface);border:1.5px solid var(--border-light);border-radius:var(--radius);
+  padding:20px 22px;box-shadow:var(--shadow);transition:all var(--transition);
+  display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;
+  animation:cardIn 0.4s ease backwards;
+}
+.tool-card:nth-child(1){animation-delay:0s}
+.tool-card:nth-child(2){animation-delay:0.03s}
+.tool-card:nth-child(3){animation-delay:0.06s}
+.tool-card:nth-child(4){animation-delay:0.09s}
+.tool-card:nth-child(5){animation-delay:0.12s}
+.tool-card:nth-child(6){animation-delay:0.15s}
+.tool-card:nth-child(7){animation-delay:0.18s}
+.tool-card:nth-child(8){animation-delay:0.21s}
+.tool-card:nth-child(9){animation-delay:0.24s}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.tool-card::after{
+  content:"";position:absolute;inset:-1px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--gradient-1),var(--gradient-2),var(--gradient-3));
+  opacity:0;transition:opacity var(--transition);z-index:-1;
+}
+.tool-card:hover{
+  box-shadow:var(--shadow-md);transform:translateY(-2px);
+  border-color:transparent;
+}
+.tool-card:hover::after{opacity:1}
+.tool-card:hover .tool-name a{color:var(--accent)}
+.tool-card:hover .tool-name a::after{opacity:1;transform:translate(2px,-2px)}
+.tool-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.tool-name{font-size:17px;font-weight:700;flex:1}
+.tool-name a{
+  color:var(--text);text-decoration:none;transition:color var(--transition);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.tool-name a::after{
+  content:"↗";font-size:12px;opacity:0.3;transition:all var(--transition);
+}
+.tool-name a:hover{color:var(--accent)}
+.tool-name a:hover::after{opacity:1}
+.tool-copy{
+  flex-shrink:0;width:30px;height:30px;border-radius:8px;border:none;cursor:pointer;
+  background:transparent;color:var(--text-muted);font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);opacity:0;
+}
+.tool-card:hover .tool-copy{opacity:1}
+.tool-copy:hover{background:var(--accent-light);color:var(--accent)}
+.tool-copy.copied{color:#10b981}
+.tool-desc{font-size:13.5px;color:var(--text-secondary);line-height:1.6}
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tool-tag{
+  font-size:11px;background:var(--tag-bg);color:var(--tag-text);
+  padding:3px 10px;border-radius:6px;font-weight:500;cursor:pointer;
+  transition:all var(--transition);user-select:none;border:1px solid transparent;
+}
+.tool-tag:hover{background:var(--accent-light);color:var(--accent);border-color:var(--accent-light)}
+.tool-tag.highlight{background:var(--accent);color:#fff;border-color:var(--accent);animation:tagPop 0.3s ease}
+@keyframes tagPop{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+/* ══════════════════════════ No Results ══════════════════════════ */
+.no-results{
+  display:none;text-align:center;padding:80px 20px;color:var(--text-secondary);
+}
+.no-results .icon{font-size:52px;margin-bottom:16px;opacity:0.5}
+.no-results h3{font-size:18px;margin-bottom:4px;color:var(--text)}
+.no-results p{font-size:14px;color:var(--text-muted)}
+.no-results.visible{display:block}
+
+/* ══════════════════════════ Back to Top ══════════════════════════ */
+.back-top{
+  position:fixed;bottom:36px;right:36px;width:48px;height:48px;border-radius:50%;
+  background:var(--surface);color:var(--text-secondary);border:1.5px solid var(--border);
+  cursor:pointer;font-size:18px;box-shadow:var(--shadow-md);
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--transition);opacity:0;pointer-events:none;z-index:50;
+}
+.back-top.visible{opacity:1;pointer-events:auto}
+.back-top:hover{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+
+/* ══════════════════════════ Footer ══════════════════════════ */
+.footer{
+  text-align:center;padding:24px;color:var(--text-muted);font-size:12px;
+  border-top:1px solid var(--border-light);margin-top:20px;
+}
+
+/* ══════════════════════════ Toast ══════════════════════════ */
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--text);color:var(--bg);padding:10px 24px;border-radius:20px;
+  font-size:13px;font-weight:600;z-index:300;opacity:0;transition:all var(--transition);
+  pointer-events:none;box-shadow:var(--shadow-lg);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ══════════════════════════ Mobile ══════════════════════════ */
+.mobile-nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:80}
+.sidebar-overlay.open{display:block}
+@media (max-width:960px){
+  .sidebar{
+    position:fixed;top:68px;left:0;z-index:90;width:280px;max-height:calc(100vh - 68px);
+    border-right:1px solid var(--border);box-shadow:var(--shadow-lg);
+    transform:translateX(-100%);transition:transform var(--transition);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .mobile-nav-toggle{display:flex;align-items:center}
+  .main{padding:24px 18px 60px}
+  .tools-grid{grid-template-columns:1fr}
+  .search-wrap{max-width:180px;margin:0 12px}
+  .hero h1{font-size:30px}
+  .hero p{font-size:14px}
+  .stats{gap:10px}
+  .stat-card{padding:14px 16px;min-width:100px}
+  .stat-number{font-size:28px}
+  .header{padding:0 16px}
+}
+@media (max-width:480px){
+  .search-wrap{max-width:140px}
+  .hero h1{font-size:26px}
+  .stat-card{min-width:80px;padding:12px 14px}
+  .stat-number{font-size:24px}
+  .tools-grid{grid-template-columns:1fr}
+  .tool-card{padding:16px}
+  .tag-filter-bar{gap:6px}
+  .tag-filter-chip{font-size:11px;padding:4px 10px}
+}
+
+/* ══════════════════════════ Misc ══════════════════════════ */
+mark{background:rgba(255,230,100,0.5);color:inherit;border-radius:2px;padding:0 1px}
+[data-theme="dark"] mark{background:rgba(255,230,100,0.25)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.loading{animation:pulse 1.5s ease infinite}
+</style>
+</head>
+<body data-theme="light">
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header class="header">
+  <div class="header-left">
+    <button class="mobile-nav-toggle" onclick="toggleSidebar()" aria-label="菜单">☰</button>
+    <span class="logo"><span class="logo-emoji">🌐</span> AI 工具大全</span>
+  </div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="搜索工具、分类、标签…" oninput="onSearch()" autocomplete="off">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="清除搜索">✕</button>
+    <span class="search-icon">🔍</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn-icon" onclick="toggleTheme()" aria-label="切换主题" id="themeBtn" title="切换深色/浅色模式">🌙</button>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-title">📂 分类导航</span>
+      <span class="sidebar-count" id="sidebarCount">34</span>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+  </aside>
+
+  <main class="main">
+    <div class="hero">
+      <div class="hero-badge">🆕 2026 持续更新</div>
+      <h1>发现<span class="gradient-text">最好的 AI 工具</span></h1>
+      <p>覆盖 34 个分类、160+ 精选 AI 工具。只收录独立产品，不含 App 内置功能。点击名称直达官网。</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card"><div class="stat-number" id="countCat">34</div><div class="stat-label">分类</div></div>
+      <div class="stat-card"><div class="stat-number" id="countTools">0</div><div class="stat-label">工具</div></div>
+      <div class="stat-card"><div class="stat-number" id="countVisible">0</div><div class="stat-label">当前显示</div></div>
+    </div>
+
+    <div class="tag-filter-bar" id="tagFilterBar">
+      <span class="label">🏷️ 快捷筛选</span>
+    </div>
+    <div class="search-info" id="searchInfo"></div>
+
+    <div id="toolsContainer"></div>
+    <div class="no-results" id="noResults">
+      <div class="icon">🔍</div>
+      <h3>没有找到匹配的工具</h3>
+      <p>试试其他关键词，或清除筛选条件</p>
+    </div>
+  </main>
+</div>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">↑</button>
+<div class="toast" id="toast"></div>
+
+<footer class="footer">
+  <p>2026 AI 工具大全 · 数据持续更新 · 点击工具名称访问官网</p>
+</footer>
+
+<script>
+/* ══════════════════════════ Data ══════════════════════════ */
+const categories = [
+  {
+    id:"general", icon:"🤖", name:"通用 AI 助手", tags:["助手","对话","多模态"],
+    tools:[
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"OpenAI 综合型 AI 助手，覆盖问答、写作、推理、编程、文件分析、图像、语音、联网研究和 Agent 等场景，适合日常主力 AI。", tags:["OpenAI","多模态","Agent"]},
+      {name:"Claude", url:"https://claude.ai/", desc:"Anthropic 的 AI 助手，擅长长文本理解、复杂分析、写作和软件开发，尤其适合处理大型文档和复杂项目。", tags:["Anthropic","长文本","编程"]},
+      {name:"Gemini", url:"https://gemini.google.com/", desc:"Google 多模态 AI 助手，与 Google 搜索、Gmail、Docs、Drive 等服务结合紧密，适合 Google 生态用户。", tags:["Google","多模态","生态"]},
+      {name:"Grok", url:"https://grok.com/", desc:"xAI 的 AI 助手，强调实时信息和互联网内容，适合了解即时动态和开放式讨论。", tags:["xAI","实时信息"]},
+      {name:"DeepSeek", url:"https://chat.deepseek.com/", desc:"以推理、数学、编程和高性价比著称的大模型平台，同时拥有开放模型生态。", tags:["推理","编程","开源"]},
+      {name:"Kimi", url:"https://kimi.moonshot.cn/", desc:"月之暗面推出的 AI 助手，重点发展长上下文、中文理解、资料分析和研究能力。", tags:["长上下文","中文","研究"]},
+      {name:"豆包", url:"https://www.doubao.com/", desc:"字节跳动旗下 AI 助手，中文交互、学习、写作和日常问答场景丰富。", tags:["字节跳动","中文","生活"]},
+      {name:"通义千问", url:"https://tongyi.aliyun.com/", desc:"阿里巴巴旗下 AI 平台，覆盖聊天、推理、代码、多模态和企业应用。", tags:["阿里巴巴","多模态","企业"]},
+      {name:"Microsoft Copilot", url:"https://copilot.microsoft.com/", desc:"微软 AI 助手，与 Windows、Microsoft 365、Edge 等产品体系结合。", tags:["微软","Office","Windows"]},
+      {name:"Mistral Le Chat", url:"https://chat.mistral.ai/", desc:"Mistral AI 通用助手，强调模型能力、欧洲 AI 生态和开发者使用。", tags:["Mistral","欧洲","开发者"]}
+    ]
+  },
+  {
+    id:"search", icon:"🔎", name:"AI 搜索", tags:["搜索","信息","实时"],
+    tools:[
+      {name:"Perplexity", url:"https://www.perplexity.ai/", desc:"搜索引擎与 AI 回答结合，搜索网页并整理答案和来源，适合查资料和快速研究。", tags:["搜索","来源引用","研究"]},
+      {name:"Google AI Mode", url:"https://www.google.com/", desc:"Google 的 AI 搜索体验，将传统搜索结果、生成式回答和信息生态结合。", tags:["Google","搜索","生态"]},
+      {name:"ChatGPT Search", url:"https://chatgpt.com/", desc:"ChatGPT 的联网搜索能力，适合在对话中直接获取实时网页信息。", tags:["OpenAI","联网","对话"]},
+      {name:"Gemini Search", url:"https://gemini.google.com/", desc:"Gemini 与 Google 搜索体系结合，适合需要实时互联网资料的用户。", tags:["Google","搜索","实时"]},
+      {name:"Grok Search", url:"https://grok.com/", desc:"Grok 的实时搜索能力，特别适合结合互联网和社交平台信息进行查询。", tags:["xAI","实时","社交"]},
+      {name:"夸克", url:"https://www.quark.cn/", desc:"国内综合搜索与 AI 助手平台，覆盖搜索、学习、文档和内容处理。", tags:["中文","综合","文档"]},
+      {name:"知乎直答", url:"https://zhida.zhihu.com/", desc:"面向中文知识问答的 AI 搜索产品，适合查询中文知识内容。", tags:["知乎","中文","问答"]},
+      {name:"纳米 AI 搜索", url:"https://www.n.cn/", desc:"国内 AI 搜索产品，强调自然语言搜索和多来源信息整合。", tags:["中文","自然语言","整合"]}
+    ]
+  },
+  {
+    id:"research", icon:"📚", name:"AI 深度研究 / 学术", tags:["学术","论文","研究"],
+    tools:[
+      {name:"Gemini Notebook", url:"https://notebooklm.google.com/", desc:"Google 的资料研究工具，可围绕用户提供的文档、网页进行问答、总结和知识整理。", tags:["Google","文档分析","知识管理"]},
+      {name:"Elicit", url:"https://elicit.com/", desc:"面向学术研究的 AI 工具，帮助检索论文、整理研究结果和提取论文信息。", tags:["论文检索","学术","提取"]},
+      {name:"Consensus", url:"https://consensus.app/", desc:"以学术论文为基础回答科研问题，适合寻找论文支持的研究结论。", tags:["论文","科研","循证"]},
+      {name:"SciSpace", url:"https://typeset.io/", desc:"专注论文和 PDF 阅读，可以解释复杂论文内容并帮助研究者理解文献。", tags:["PDF","论文","理解"]},
+      {name:"Semantic Scholar", url:"https://www.semanticscholar.org/", desc:"学术论文搜索平台，通过 AI 辅助发现论文、引用关系和研究资料。", tags:["搜索","引用","发现"]},
+      {name:"ResearchRabbit", url:"https://www.researchrabbit.ai/", desc:"用论文关系网络帮助研究者发现相关文献和研究方向。", tags:["关系网络","文献发现"]},
+      {name:"Connected Papers", url:"https://www.connectedpapers.com/", desc:"根据一篇论文寻找相关论文，并以可视化关系图展示研究领域。", tags:["可视化","关系图","论文"]}
+    ]
+  },
+  {
+    id:"coding", icon:"💻", name:"AI 编程", tags:["编程","代码","开发"],
+    tools:[
+      {name:"Cursor", url:"https://cursor.com/", desc:"AI 原生代码编辑器，可理解整个代码库并协助生成、修改、Debug 和重构代码。", tags:["编辑器","代码库","Debug"]},
+      {name:"Claude Code", url:"https://claude.ai/code", desc:"Anthropic 终端 Coding Agent，可在项目环境中理解代码、执行任务和工程修改。", tags:["Anthropic","终端","Agent"]},
+      {name:"GitHub Copilot", url:"https://github.com/features/copilot", desc:"GitHub 的 AI 编程助手，支持代码补全、解释、生成和开发工作流。", tags:["GitHub","补全","工作流"]},
+      {name:"Windsurf", url:"https://codeium.com/windsurf", desc:"AI 原生开发环境，将代码编辑、上下文理解和 Agent 工作流结合。", tags:["IDE","Agent","上下文"]},
+      {name:"Replit", url:"https://replit.com/", desc:"浏览器里的完整开发平台，AI 可从想法开始创建和部署应用。", tags:["浏览器","部署","全栈"]},
+      {name:"Cline", url:"https://cline.bot/", desc:"面向 VS Code 的 Agent 编程工具，可读取项目、调用工具并执行开发任务。", tags:["VS Code","Agent","工具调用"]},
+      {name:"Aider", url:"https://aider.chat/", desc:"基于终端的 AI 编程工具，适合让 AI 配合 Git 修改代码库。", tags:["终端","Git","协作"]},
+      {name:"Gemini CLI", url:"https://github.com/google-gemini/gemini-cli", desc:"Google 提供的命令行 AI 工具，可在终端辅助编程和执行开发任务。", tags:["Google","CLI","终端"]},
+      {name:"OpenCode", url:"https://opencode.ai/", desc:"开源 AI Coding Agent，强调模型选择和开发者可控性。", tags:["开源","Agent","可控"]}
+    ]
+  },
+  {
+    id:"agent", icon:"🤖", name:"AI Agent", tags:["Agent","自主","任务"],
+    tools:[
+      {name:"Manus", url:"https://manus.im/", desc:"面向复杂任务的自主 Agent，让 AI 不只回答问题，而是连续完成任务。", tags:["自主","复杂任务","执行"]},
+      {name:"ChatGPT Agent", url:"https://chatgpt.com/", desc:"ChatGPT 的任务执行能力，结合浏览、分析和工具调用完成多步骤任务。", tags:["OpenAI","工具调用","多步骤"]},
+      {name:"Claude Agent / Claude Code", url:"https://claude.ai/", desc:"将 Claude 的推理能力延伸到工具调用和实际项目操作。", tags:["Anthropic","推理","项目"]},
+      {name:"Gemini Agent", url:"https://gemini.google.com/", desc:"Google 生态中的 Agent 能力，重点与搜索和 Google 服务结合。", tags:["Google","生态","搜索"]},
+      {name:"Lindy", url:"https://www.lindy.ai/", desc:"用于创建个人和企业 AI Agent 的平台，可处理邮件、日程等工作。", tags:["个人助理","企业","自动化"]},
+      {name:"扣子", url:"https://www.coze.cn/", desc:"国内 AI Agent / 工作流平台，适合创建机器人和自动化应用。", tags:["中文","机器人","自动化"]}
+    ]
+  },
+  {
+    id:"automation", icon:"🔄", name:"AI 自动化 / Workflow", tags:["自动化","工作流","连接"],
+    tools:[
+      {name:"Zapier", url:"https://zapier.com/", desc:"连接大量第三方软件的自动化平台，把 AI 加入邮件、表格、CRM 等工作流。", tags:["连接","第三方","无代码"]},
+      {name:"Make", url:"https://www.make.com/", desc:"可视化自动化平台，用流程图方式连接不同应用和 AI。", tags:["可视化","流程图","连接"]},
+      {name:"n8n", url:"https://n8n.io/", desc:"开源工作流自动化平台，自由度高，适合技术用户自行搭建复杂流程。", tags:["开源","自托管","灵活"]},
+      {name:"Gumloop", url:"https://www.gumloop.com/", desc:"AI 驱动的自动化平台，把网页操作、数据处理和 AI 组合起来。", tags:["AI驱动","网页","数据"]},
+      {name:"Lindy", url:"https://www.lindy.ai/", desc:"将 AI Agent 与自动化结合，自动处理个人和企业重复任务。", tags:["Agent","个人","企业"]}
+    ]
+  },
+  {
+    id:"image-gen", icon:"🎨", name:"AI 图像生成", tags:["图像","生成","创意"],
+    tools:[
+      {name:"Midjourney", url:"https://www.midjourney.com/", desc:"以高质量视觉创作著称，适合概念艺术、插画、海报和电影感画面。", tags:["高质量","艺术","创意"]},
+      {name:"FLUX", url:"https://blackforestlabs.ai/", desc:"图像生成模型和生态，强调生成质量、文字表现和开发者可控性。", tags:["模型","质量","开发者"]},
+      {name:"GPT Image", url:"https://chatgpt.com/", desc:"综合型图像生成和编辑工具，通过自然语言创建和修改图片。", tags:["OpenAI","编辑","自然语言"]},
+      {name:"Ideogram", url:"https://ideogram.ai/", desc:"特别擅长图片中文字、Logo、海报和排版设计。", tags:["文字","Logo","排版"]},
+      {name:"Adobe Firefly", url:"https://www.adobe.com/products/firefly.html", desc:"Adobe 的生成式 AI 平台，与 Photoshop、Illustrator 等设计工具结合。", tags:["Adobe","设计","生态"]},
+      {name:"Leonardo AI", url:"https://leonardo.ai/", desc:"面向创意设计和视觉资产生成，常用于角色、游戏资产和概念图。", tags:["创意","游戏","资产"]},
+      {name:"Stable Diffusion", url:"https://stability.ai/", desc:"开放生态的图像生成模型，适合本地运行和高度定制。", tags:["开源","本地","定制"]},
+      {name:"Recraft", url:"https://www.recraft.ai/", desc:"强调设计、品牌视觉和矢量图生成。", tags:["设计","品牌","矢量"]},
+      {name:"Krea", url:"https://www.krea.ai/", desc:"提供实时 AI 图像创作、增强和视觉生成工具。", tags:["实时","增强","创作"]}
+    ]
+  },
+  {
+    id:"image-edit", icon:"✏️", name:"AI 图片编辑", tags:["图片","编辑","处理"],
+    tools:[
+      {name:"PhotoRoom", url:"https://www.photoroom.com/", desc:"面向商品图和社交媒体图片的 AI 编辑工具，尤其方便自动抠图和换背景。", tags:["电商","抠图","背景"]},
+      {name:"Remove.bg", url:"https://www.remove.bg/", desc:"专门自动去除图片背景，操作简单。", tags:["去背景","自动","简单"]},
+      {name:"Topaz Photo AI", url:"https://www.topazlabs.com/topaz-photo-ai", desc:"专注图片放大、降噪、锐化和画质增强。", tags:["放大","降噪","增强"]},
+      {name:"Magnific", url:"https://magnific.ai/", desc:"AI 图片增强和细节重建工具，适合提升分辨率和视觉细节。", tags:["增强","分辨率","细节"]},
+      {name:"Clipdrop", url:"https://clipdrop.co/", desc:"提供抠图、清除物体、换背景等多种 AI 图片处理功能。", tags:["多功能","清除","处理"]}
+    ]
+  },
+  {
+    id:"video-gen", icon:"🎬", name:"AI 视频生成", tags:["视频","生成","创作"],
+    tools:[
+      {name:"Runway", url:"https://runwayml.com/", desc:"专业级 AI 视频创作平台，覆盖文本/图像生成视频和视频编辑。", tags:["专业","多模态","编辑"]},
+      {name:"Kling", url:"https://kling.kuaishou.com/", desc:"快手旗下 AI 视频生成平台，在人物、动作和镜头生成方面受广泛关注。", tags:["快手","人物","动作"]},
+      {name:"Google Veo", url:"https://deepmind.google/technologies/veo/", desc:"Google 高质量视频生成模型，重点发展真实感、物理效果和电影化视频。", tags:["Google","真实感","电影化"]},
+      {name:"Sora", url:"https://sora.com/", desc:"OpenAI 视频生成系统，用文字等输入生成具有连续镜头的 AI 视频。", tags:["OpenAI","文字生成","连续镜头"]},
+      {name:"Luma", url:"https://lumalabs.ai/", desc:"AI 视频和视觉创作平台，适合快速生成创意镜头。", tags:["创意","快速","视觉"]},
+      {name:"Pika", url:"https://pika.art/", desc:"面向创作者的 AI 视频工具，适合短视频和创意视觉效果。", tags:["创作者","短视频","特效"]},
+      {name:"Hailuo AI", url:"https://hailuoai.video/", desc:"AI 视频生成平台，支持文字和图片生成视频。", tags:["文字","图片","生成"]},
+      {name:"Adobe Firefly Video", url:"https://www.adobe.com/products/firefly.html", desc:"Adobe 面向视频创作的生成式 AI 工具，与 Adobe 创作工作流结合。", tags:["Adobe","工作流","专业"]}
+    ]
+  },
+  {
+    id:"video-edit", icon:"🎥", name:"AI 视频编辑", tags:["视频","编辑","剪辑"],
+    tools:[
+      {name:"CapCut / 剪映", url:"https://www.capcut.com/", desc:"面向大众的视频剪辑平台，集成 AI 字幕、配音、剪辑和特效等功能。", tags:["大众","字幕","特效"]},
+      {name:"Descript", url:"https://www.descript.com/", desc:"把视频转换成可编辑文字，通过修改文字来编辑视频和音频。", tags:["文字编辑","创新","音视频"]},
+      {name:"VEED", url:"https://www.veed.io/", desc:"在线视频编辑平台，适合快速制作社交媒体和营销视频。", tags:["在线","社交","营销"]},
+      {name:"OpusClip", url:"https://www.opus.pro/", desc:"自动从长视频中寻找重点并生成短视频，适合内容再利用。", tags:["长视频","短视频","自动"]}
+    ]
+  },
+  {
+    id:"avatar", icon:"🧑‍💼", name:"AI 数字人 / Avatar", tags:["数字人","虚拟","视频"],
+    tools:[
+      {name:"HeyGen", url:"https://www.heygen.com/", desc:"AI 数字人视频平台，让虚拟人物进行讲解、营销和培训。", tags:["数字人","营销","培训"]},
+      {name:"Synthesia", url:"https://www.synthesia.io/", desc:"面向企业的视频数字人平台，常用于培训、企业介绍和内部沟通。", tags:["企业","培训","沟通"]},
+      {name:"D-ID", url:"https://www.d-id.com/", desc:"让 AI 生成的人物头像进行讲话和视频表达。", tags:["头像","讲话","表达"]},
+      {name:"Tavus", url:"https://www.tavus.io/", desc:"AI 视频沟通平台，重点发展个性化 AI 视频。", tags:["个性化","沟通","视频"]},
+      {name:"Colossyan", url:"https://www.colossyan.com/", desc:"企业培训和教育方向的 AI 数字人视频工具。", tags:["企业","教育","培训"]}
+    ]
+  },
+  {
+    id:"tts", icon:"🎙️", name:"AI 语音 / TTS", tags:["语音","TTS","配音"],
+    tools:[
+      {name:"ElevenLabs", url:"https://elevenlabs.io/", desc:"AI 语音平台，以自然语音生成、多语言配音和语音技术著称。", tags:["自然","多语言","配音"]},
+      {name:"Murf", url:"https://murf.ai/", desc:"面向商业内容的 AI 配音平台，适合宣传片、课程和演示。", tags:["商业","宣传","课程"]},
+      {name:"PlayHT", url:"https://play.ht/", desc:"AI 语音生成平台，提供多语言文本转语音能力。", tags:["多语言","TTS","生成"]},
+      {name:"Cartesia", url:"https://cartesia.ai/", desc:"专注实时 AI 语音和低延迟语音交互。", tags:["实时","低延迟","交互"]},
+      {name:"Google Cloud Text-to-Speech", url:"https://cloud.google.com/text-to-speech", desc:"Google Cloud 的企业级语音合成服务。", tags:["Google","企业","云服务"]},
+      {name:"Azure AI Speech", url:"https://azure.microsoft.com/en-us/products/ai-services/ai-speech", desc:"Microsoft 语音识别、合成和语音 AI 平台。", tags:["微软","识别","合成"]}
+    ]
+  },
+  {
+    id:"audio-podcast", icon:"🎧", name:"AI 音频 / Podcast", tags:["音频","播客","会议"],
+    tools:[
+      {name:"Adobe Podcast", url:"https://podcast.adobe.com/", desc:"Adobe 的 AI 音频工具，重点是人声增强、降噪和播客制作。", tags:["Adobe","降噪","播客"]},
+      {name:"Descript", url:"https://www.descript.com/", desc:"将音频转成文字后编辑，适合播客和视频创作者。", tags:["文字编辑","播客","创作"]},
+      {name:"Auphonic", url:"https://auphonic.com/", desc:"自动进行音频音量平衡、降噪和后期处理。", tags:["自动","平衡","后期"]},
+      {name:"Riverside", url:"https://riverside.fm/", desc:"在线录制播客、采访和视频会议，提供 AI 转录和编辑能力。", tags:["录制","采访","转录"]},
+      {name:"Fireflies.ai", url:"https://fireflies.ai/", desc:"自动记录和总结会议内容，并提取行动事项。", tags:["会议","总结","行动"]},
+      {name:"Otter.ai", url:"https://otter.ai/", desc:"会议实时转录和总结工具，适合课堂、会议和采访。", tags:["实时","转录","课堂"]},
+      {name:"Granola", url:"https://www.granola.ai/", desc:"AI 会议笔记工具，帮助用户自动整理会议内容。", tags:["笔记","整理","会议"]}
+    ]
+  },
+  {
+    id:"music", icon:"🎵", name:"AI 音乐", tags:["音乐","作曲","生成"],
+    tools:[
+      {name:"Suno", url:"https://suno.com/", desc:"根据文字描述生成完整歌曲，包括人声、伴奏和歌曲结构。", tags:["歌曲","人声","完整"]},
+      {name:"Udio", url:"https://www.udio.com/", desc:"AI 音乐创作平台，根据自然语言生成不同风格的音乐。", tags:["风格","自然语言","创作"]},
+      {name:"Stable Audio", url:"https://www.stableaudio.com/", desc:"Stability AI 音频生成平台，适合生成音乐和声音素材。", tags:["Stability AI","素材","生成"]},
+      {name:"AIVA", url:"https://www.aiva.ai/", desc:"AI 作曲工具，主要用于影视、游戏和创意项目配乐。", tags:["作曲","影视","游戏"]}
+    ]
+  },
+  {
+    id:"writing", icon:"✍️", name:"AI 写作 / 文案", tags:["写作","文案","内容"],
+    tools:[
+      {name:"Claude", url:"https://claude.ai/", desc:"适合长篇文章、报告、改写和复杂文字任务，强调自然语言质量。", tags:["长篇","报告","质量"]},
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"综合写作工具，可生成、修改、总结和重构各种文本。", tags:["综合","修改","总结"]},
+      {name:"Jasper", url:"https://www.jasper.ai/", desc:"面向营销团队的 AI 内容平台，重点是商业内容和品牌文案。", tags:["营销","品牌","团队"]},
+      {name:"Copy.ai", url:"https://www.copy.ai/", desc:"面向营销和销售团队的 AI 文案及工作流工具。", tags:["营销","销售","工作流"]},
+      {name:"Writesonic", url:"https://writesonic.com/", desc:"AI 内容和营销平台，覆盖文章、SEO 和广告内容。", tags:["文章","SEO","广告"]},
+      {name:"Grammarly", url:"https://www.grammarly.com/", desc:"英文写作辅助工具，检查语法、表达、语气并进行 AI 改写。", tags:["语法","检查","改写"]},
+      {name:"Wordtune", url:"https://www.wordtune.com/", desc:"英文改写和润色工具，帮助调整句子表达和语气。", tags:["改写","润色","语气"]}
+    ]
+  },
+  {
+    id:"education", icon:"🎓", name:"AI 学习 / 教育", tags:["学习","教育","辅导"],
+    tools:[
+      {name:"Khanmigo", url:"https://www.khanacademy.org/khan-labs", desc:"Khan Academy 的 AI 学习助手，辅助学生学习和教师教学。", tags:["Khan Academy","学生","教师"]},
+      {name:"Quizlet AI", url:"https://quizlet.com/", desc:"将 AI 加入闪卡、学习资料和复习流程，适合考试准备。", tags:["闪卡","复习","考试"]},
+      {name:"Wolfram Alpha", url:"https://www.wolframalpha.com/", desc:"强大的计算知识引擎，特别适合数学、科学和工程问题。", tags:["数学","科学","工程"]},
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"可作为个人 AI 导师，解释概念、制定学习计划和练习。", tags:["导师","计划","练习"]},
+      {name:"Gemini", url:"https://gemini.google.com/", desc:"适合综合学习、资料分析和 Google 生态中的教育任务。", tags:["Google","综合","资料"]}
+    ]
+  },
+  {
+    id:"data-analysis", icon:"📊", name:"AI 数据分析", tags:["数据","分析","可视化"],
+    tools:[
+      {name:"ChatGPT Data Analysis", url:"https://chatgpt.com/", desc:"可读取表格和数据文件，进行统计分析、可视化和数据解释。", tags:["OpenAI","表格","可视化"]},
+      {name:"Claude", url:"https://claude.ai/", desc:"适合分析结构化数据、文件和复杂报告。", tags:["结构化","报告","复杂"]},
+      {name:"Gemini", url:"https://gemini.google.com/", desc:"可结合 Google Sheets、Drive 等生态处理数据和文档。", tags:["Google","Sheets","生态"]},
+      {name:"Julius AI", url:"https://julius.ai/", desc:"专注自然语言数据分析，让用户通过提问分析数据集。", tags:["自然语言","提问","数据集"]},
+      {name:"Microsoft Power BI Copilot", url:"https://powerbi.microsoft.com/", desc:"将生成式 AI 集成到商业智能和数据分析工作流。", tags:["微软","BI","商业智能"]},
+      {name:"Tableau AI", url:"https://www.tableau.com/", desc:"为 Tableau 数据分析加入自然语言、洞察和辅助分析能力。", tags:["Tableau","洞察","自然语言"]}
+    ]
+  },
+  {
+    id:"pdf-docs", icon:"📑", name:"AI PDF / 文档", tags:["PDF","文档","阅读"],
+    tools:[
+      {name:"Adobe Acrobat AI", url:"https://www.adobe.com/acrobat.html", desc:"在 PDF 阅读器中加入 AI，可总结、问答和分析文档。", tags:["Adobe","总结","问答"]},
+      {name:"Gemini Notebook", url:"https://notebooklm.google.com/", desc:"把多个资料来源集中起来进行问答和研究。", tags:["Google","资料","研究"]},
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"支持上传 PDF、文档和表格进行分析。", tags:["OpenAI","上传","分析"]},
+      {name:"Claude", url:"https://claude.ai/", desc:"擅长处理长篇报告、合同和复杂文本。", tags:["长篇","合同","报告"]},
+      {name:"Smallpdf AI", url:"https://smallpdf.com/", desc:"将 PDF 编辑、转换和 AI 总结结合起来。", tags:["编辑","转换","总结"]},
+      {name:"Humata", url:"https://www.humata.ai/", desc:"面向 PDF 问答和资料分析的 AI 工具。", tags:["问答","分析","PDF"]},
+      {name:"SciSpace", url:"https://typeset.io/", desc:"特别适合论文 PDF 阅读和学术资料理解。", tags:["论文","学术","理解"]}
+    ]
+  },
+  {
+    id:"ppt", icon:"📊", name:"AI PPT / 演示", tags:["PPT","演示","幻灯片"],
+    tools:[
+      {name:"Gamma", url:"https://gamma.app/", desc:"根据主题或资料快速生成结构化演示文稿，适合快速做 PPT。", tags:["快速","结构化","主题"]},
+      {name:"Canva", url:"https://www.canva.com/", desc:"将 AI 内容生成、模板和传统设计工具结合，快速制作演示。", tags:["模板","设计","在线"]},
+      {name:"Beautiful.ai", url:"https://www.beautiful.ai/", desc:"自动处理版式设计的 AI 演示工具，适合商业 PPT。", tags:["自动","版式","商业"]},
+      {name:"AiPPT", url:"https://www.aippt.cn/", desc:"国内 AI PPT 生成平台，适合快速从主题生成演示文稿。", tags:["中文","快速","生成"]}
+    ]
+  },
+  {
+    id:"ui-ux", icon:"🎨", name:"AI UI / UX / 设计", tags:["UI","UX","设计"],
+    tools:[
+      {name:"Canva", url:"https://www.canva.com/", desc:"面向大众的综合设计平台，AI 帮助制作海报、社交媒体和演示内容。", tags:["大众","海报","社交"]},
+      {name:"Framer AI", url:"https://www.framer.com/", desc:"根据自然语言生成网站页面和设计。", tags:["网站","自然语言","生成"]},
+      {name:"Galileo AI", url:"https://www.usegalileo.ai/", desc:"根据文字描述生成 UI/UX 设计概念。", tags:["概念","文字描述","快速"]},
+      {name:"Uizard", url:"https://uizard.io/", desc:"从文字、草图等输入快速生成界面原型。", tags:["原型","草图","快速"]},
+      {name:"Relume", url:"https://www.relume.io/", desc:"AI 网站架构和 Web UI 设计工具，适合快速建立网站结构。", tags:["架构","Web","结构"]}
+    ]
+  },
+  {
+    id:"web-builder", icon:"🌐", name:"AI 建站", tags:["建站","Web","开发"],
+    tools:[
+      {name:"Lovable", url:"https://lovable.dev/", desc:"通过自然语言生成 Web 应用，适合快速制作 MVP 和产品原型。", tags:["自然语言","MVP","原型"]},
+      {name:"Bolt.new", url:"https://bolt.new/", desc:"浏览器中的 AI Web 开发工具，根据描述生成完整项目。", tags:["浏览器","完整项目","生成"]},
+      {name:"v0", url:"https://v0.dev/", desc:"Vercel 的 AI UI/Web 开发工具，适合生成 React 等现代 Web 界面。", tags:["Vercel","React","UI"]},
+      {name:"Replit", url:"https://replit.com/", desc:"将 AI 编程、开发环境和部署整合在浏览器中。", tags:["浏览器","部署","全栈"]},
+      {name:"Framer", url:"https://www.framer.com/", desc:"AI 辅助的网站设计与发布平台。", tags:["设计","发布","可视化"]}
+    ]
+  },
+  {
+    id:"app-builder", icon:"📱", name:"AI App / 软件生成", tags:["App","软件","生成"],
+    tools:[
+      {name:"Lovable", url:"https://lovable.dev/", desc:"从自然语言直接构建 Web App。", tags:["自然语言","Web App","快速"]},
+      {name:"Bolt.new", url:"https://bolt.new/", desc:"快速生成和修改 Web 项目。", tags:["快速","Web","修改"]},
+      {name:"Replit", url:"https://replit.com/", desc:"从想法到代码、运行和部署的一体化 AI 开发环境。", tags:["一体化","部署","开发"]},
+      {name:"v0", url:"https://v0.dev/", desc:"快速生成现代 Web UI 和应用界面。", tags:["UI","现代","React"]},
+      {name:"Base44", url:"https://base44.com/", desc:"AI 驱动的软件构建平台，通过自然语言创建应用。", tags:["自然语言","构建","平台"]},
+      {name:"FlutterFlow", url:"https://flutterflow.io/", desc:"可视化 App 开发平台，加入 AI 辅助应用生成能力。", tags:["Flutter","可视化","移动端"]}
+    ]
+  },
+  {
+    id:"knowledge", icon:"🗂️", name:"AI 知识管理", tags:["知识","笔记","管理"],
+    tools:[
+      {name:"Gemini Notebook", url:"https://notebooklm.google.com/", desc:"以用户自己的资料为中心进行 AI 研究和知识整理。", tags:["Google","资料","研究"]},
+      {name:"Obsidian + AI", url:"https://obsidian.md/", desc:"在本地 Markdown 知识库基础上结合 AI，适合个人知识管理。", tags:["本地","Markdown","个人"]},
+      {name:"Mem", url:"https://get.mem.ai/", desc:"AI 原生笔记和知识管理工具，强调自动整理个人信息。", tags:["自动","笔记","个人"]},
+      {name:"Reflect", url:"https://reflect.app/", desc:"AI 辅助的个人笔记和知识管理工具。", tags:["笔记","个人","辅助"]}
+    ]
+  },
+  {
+    id:"schedule", icon:"📅", name:"AI 日程 / 任务", tags:["日程","任务","时间管理"],
+    tools:[
+      {name:"Motion", url:"https://www.usemotion.com/", desc:"根据任务和会议自动规划日程，适合时间管理。", tags:["自动规划","会议","优化"]},
+      {name:"Reclaim AI", url:"https://reclaim.ai/", desc:"自动安排任务、习惯和会议，重点是日历优化。", tags:["自动","习惯","日历"]},
+      {name:"Sunsama", url:"https://www.sunsama.com/", desc:"将任务和日历结合，帮助用户进行每日工作规划。", tags:["任务","日历","每日"]},
+      {name:"Clockwise", url:"https://www.getclockwise.com/", desc:"自动优化团队日历和会议时间。", tags:["团队","优化","会议"]},
+      {name:"Todoist AI", url:"https://todoist.com/", desc:"在任务管理中加入 AI 辅助规划和任务处理。", tags:["任务管理","规划","辅助"]}
+    ]
+  },
+  {
+    id:"meeting", icon:"🤝", name:"AI 会议助手", tags:["会议","记录","转录"],
+    tools:[
+      {name:"Fireflies.ai", url:"https://fireflies.ai/", desc:"自动记录、转录和总结会议，并提取行动任务。", tags:["自动","总结","任务"]},
+      {name:"Otter.ai", url:"https://otter.ai/", desc:"实时会议转录和 AI 总结工具。", tags:["实时","转录","总结"]},
+      {name:"Granola", url:"https://www.granola.ai/", desc:"AI 会议笔记工具，帮助整理谈话内容和重点。", tags:["笔记","整理","重点"]},
+      {name:"Fathom", url:"https://fathom.video/", desc:"会议录音、转录和总结平台，适合销售和团队会议。", tags:["录音","销售","团队"]},
+      {name:"Avoma", url:"https://www.avoma.com/", desc:"面向企业会议和销售团队的 AI 会议助手。", tags:["企业","销售","全面"]}
+    ]
+  },
+  {
+    id:"marketing", icon:"📣", name:"AI 营销", tags:["营销","内容","SEO"],
+    tools:[
+      {name:"Jasper", url:"https://www.jasper.ai/", desc:"面向营销团队的 AI 内容平台，强调品牌内容和营销工作流。", tags:["品牌","团队","工作流"]},
+      {name:"Copy.ai", url:"https://www.copy.ai/", desc:"AI 文案与营销自动化工具，覆盖销售和营销流程。", tags:["文案","销售","自动化"]},
+      {name:"HubSpot AI", url:"https://www.hubspot.com/", desc:"将 AI 集成进 CRM、营销、销售和客户服务。", tags:["CRM","销售","客服"]},
+      {name:"Semrush", url:"https://www.semrush.com/", desc:"SEO 和数字营销平台，加入 AI 内容和分析能力。", tags:["SEO","分析","内容"]},
+      {name:"Surfer SEO", url:"https://surferseo.com/", desc:"结合 AI 内容生成和 SEO 优化。", tags:["SEO","内容","优化"]},
+      {name:"Hootsuite AI", url:"https://www.hootsuite.com/", desc:"帮助社交媒体团队生成、管理和优化内容。", tags:["社交媒体","管理","优化"]}
+    ]
+  },
+  {
+    id:"sales-crm", icon:"💰", name:"AI 销售 / CRM", tags:["销售","CRM","客户"],
+    tools:[
+      {name:"Clay", url:"https://www.clay.com/", desc:"用 AI 和数据帮助销售团队发现、研究和丰富潜在客户。", tags:["数据","潜在客户","研究"]},
+      {name:"Apollo", url:"https://www.apollo.io/", desc:"销售数据、客户开发和外联平台，提供 AI 辅助功能。", tags:["数据","外联","辅助"]},
+      {name:"Gong", url:"https://www.gong.io/", desc:"分析销售电话和客户互动，帮助销售团队提高成交效率。", tags:["电话分析","互动","成交"]},
+      {name:"Lavender", url:"https://www.lavender.ai/", desc:"AI 销售邮件辅助工具，帮助优化销售邮件表达。", tags:["邮件","优化","表达"]}
+    ]
+  },
+  {
+    id:"ecommerce", icon:"🛒", name:"AI 电商", tags:["电商","商品","营销"],
+    tools:[
+      {name:"Photoroom", url:"https://www.photoroom.com/", desc:"电商商品图片处理工具，适合抠图、背景生成和商品视觉制作。", tags:["图片","抠图","视觉"]},
+      {name:"Canva", url:"https://www.canva.com/", desc:"制作商品图片、广告素材、社交媒体内容和营销设计。", tags:["设计","广告","社交"]},
+      {name:"Jasper", url:"https://www.jasper.ai/", desc:"用于商品文案、广告和营销内容生成。", tags:["文案","广告","营销"]},
+      {name:"Copy.ai", url:"https://www.copy.ai/", desc:"生成商品描述、销售文案和营销内容。", tags:["描述","文案","销售"]}
+    ]
+  },
+  {
+    id:"seo", icon:"🔍", name:"AI SEO", tags:["SEO","搜索","优化"],
+    tools:[
+      {name:"Semrush", url:"https://www.semrush.com/", desc:"综合 SEO 和数字营销平台，提供关键词、竞争对手和 AI 内容工具。", tags:["综合","关键词","竞争"]},
+      {name:"Ahrefs", url:"https://ahrefs.com/", desc:"强大的 SEO 数据平台，主要用于关键词、外链和网站分析。", tags:["关键词","外链","分析"]},
+      {name:"Surfer SEO", url:"https://surferseo.com/", desc:"根据搜索结果和关键词数据优化文章内容。", tags:["内容优化","关键词","文章"]},
+      {name:"Frase", url:"https://www.frase.io/", desc:"将 SEO 内容研究、写作和优化结合起来。", tags:["研究","写作","内容"]},
+      {name:"Clearscope", url:"https://www.clearscope.io/", desc:"面向专业内容团队的 SEO 内容优化工具。", tags:["专业","团队","优化"]},
+      {name:"Writesonic", url:"https://writesonic.com/", desc:"AI 写作平台，同时提供 SEO 和内容营销功能。", tags:["写作","营销","内容"]}
+    ]
+  },
+  {
+    id:"3d", icon:"🧊", name:"AI 3D", tags:["3D","模型","生成"],
+    tools:[
+      {name:"Tripo", url:"https://www.tripo3d.ai/", desc:"根据文字或图片快速生成 3D 模型。", tags:["文字","图片","快速"]},
+      {name:"Meshy", url:"https://www.meshy.ai/", desc:"AI 3D 生成平台，支持文字/图片生成 3D 资产。", tags:["资产","文字","图片"]},
+      {name:"Rodin", url:"https://hyper3d.ai/", desc:"AI 3D 模型生成工具，适合快速创建三维资产。", tags:["快速","资产","三维"]},
+      {name:"Spline AI", url:"https://spline.design/", desc:"将 AI 生成能力融入浏览器 3D 设计平台。", tags:["浏览器","设计","交互"]},
+      {name:"Scenario", url:"https://www.scenario.com/", desc:"面向游戏开发的 AI 资产生成工具。", tags:["游戏","资产","开发"]}
+    ]
+  },
+  {
+    id:"game-dev", icon:"🎮", name:"AI 游戏开发", tags:["游戏","开发","引擎"],
+    tools:[
+      {name:"Unity AI", url:"https://unity.com/", desc:"将 AI 辅助能力集成到 Unity 游戏开发生态。", tags:["Unity","引擎","集成"]},
+      {name:"Unreal Engine", url:"https://www.unrealengine.com/", desc:"Epic 的专业游戏引擎，可结合 AI 工具进行游戏开发。", tags:["Epic","专业","引擎"]},
+      {name:"Scenario", url:"https://www.scenario.com/", desc:"为游戏开发者生成角色、素材和视觉资产。", tags:["角色","素材","视觉"]},
+      {name:"Meshy", url:"https://www.meshy.ai/", desc:"快速生成游戏使用的 3D 模型。", tags:["3D","模型","快速"]},
+      {name:"Tripo", url:"https://www.tripo3d.ai/", desc:"AI 生成三维资产，可用于游戏原型和内容生产。", tags:["3D","资产","原型"]},
+      {name:"Cursor", url:"https://cursor.com/", desc:"AI 编程工具，可辅助游戏代码开发。", tags:["代码","开发","辅助"]}
+    ]
+  },
+  {
+    id:"science", icon:"🔬", name:"AI 科研 / 科学", tags:["科研","科学","计算"],
+    tools:[
+      {name:"Wolfram Alpha", url:"https://www.wolframalpha.com/", desc:"计算知识引擎，特别适合数学、物理、化学和工程计算。", tags:["数学","物理","计算"]},
+      {name:"Elicit", url:"https://elicit.com/", desc:"AI 学术研究工具，帮助搜索和整理论文。", tags:["论文","搜索","整理"]},
+      {name:"Consensus", url:"https://consensus.app/", desc:"根据科研论文回答研究问题。", tags:["论文","回答","循证"]},
+      {name:"SciSpace", url:"https://typeset.io/", desc:"帮助研究人员理解和分析学术论文。", tags:["论文","理解","分析"]},
+      {name:"Semantic Scholar", url:"https://www.semanticscholar.org/", desc:"AI 辅助的学术搜索和论文发现平台。", tags:["搜索","论文","发现"]},
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"可辅助科研 brainstorming、数据分析、代码和论文理解。重要事实和引用需核验。", tags:["辅助","头脑风暴","核验"]}
+    ]
+  },
+  {
+    id:"translation", icon:"🌍", name:"AI 翻译", tags:["翻译","语言","多语言"],
+    tools:[
+      {name:"DeepL", url:"https://www.deepl.com/", desc:"专业翻译平台，以自然语言质量和商务文本翻译著称。", tags:["专业","自然","商务"]},
+      {name:"Google Translate", url:"https://translate.google.com/", desc:"覆盖语言范围广的通用翻译服务。", tags:["Google","多语言","通用"]},
+      {name:"ChatGPT", url:"https://chatgpt.com/", desc:"可进行上下文翻译、润色和风格转换。", tags:["上下文","润色","风格"]},
+      {name:"Claude", url:"https://claude.ai/", desc:"适合长文档和需要保持上下文一致性的翻译任务。", tags:["长文档","一致性","上下文"]},
+      {name:"Gemini", url:"https://gemini.google.com/", desc:"支持多语言翻译，可结合 Google 生态处理文档。", tags:["Google","多语言","文档"]},
+      {name:"Microsoft Translator", url:"https://www.bing.com/translator", desc:"Microsoft 的多语言翻译服务，适合企业场景。", tags:["微软","企业","多语言"]}
+    ]
+  },
+  {
+    id:"ocr", icon:"📷", name:"AI OCR / 文档识别", tags:["OCR","识别","文档"],
+    tools:[
+      {name:"Adobe Acrobat", url:"https://www.adobe.com/acrobat.html", desc:"可识别、搜索和处理 PDF 文本。", tags:["Adobe","PDF","搜索"]},
+      {name:"OCR.Space", url:"https://ocr.space/", desc:"在线 OCR 服务，可将图片中的文字转换成文本。", tags:["在线","图片","文本"]}
+    ]
+  }
+];
+
+/* ══════════════════════════ State ══════════════════════════ */
+const container = document.getElementById('toolsContainer');
+const sidebarNav = document.getElementById('sidebarNav');
+let totalTools = 0;
+let activeTagFilter = null;
+let searchQuery = '';
+
+/* ══════════════════════════ Render ══════════════════════════ */
+function renderAll() {
+  container.innerHTML = '';
+  sidebarNav.innerHTML = '';
+  totalTools = 0;
+
+  categories.forEach(cat => {
+    // Sidebar
+    const link = document.createElement('a');
+    link.href = '#' + cat.id;
+    link.innerHTML = `<span class="cat-emoji">${cat.icon}</span><span class="cat-name">${cat.name}</span><span class="cat-badge">${cat.tools.length}</span>`;
+    link.onclick = (e) => { e.preventDefault(); document.getElementById(cat.id).scrollIntoView({behavior:'smooth'}); closeSidebar(); };
+    sidebarNav.appendChild(link);
+
+    // Section
+    const section = document.createElement('section');
+    section.className = 'category';
+    section.id = cat.id;
+    section.setAttribute('data-category', cat.name);
+    section.setAttribute('data-tags', cat.tags.join(' '));
+
+    section.innerHTML = `
+      <div class="category-header">
+        <div class="category-icon">${cat.icon}</div>
+        <div class="category-text"><h2>${cat.name}</h2><div class="category-subtitle">${cat.tags.join(' · ')}</div></div>
+        <span class="category-count">${cat.tools.length} 个</span>
+      </div>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'tools-grid';
+
+    cat.tools.forEach((tool, i) => {
+      totalTools++;
+      const card = document.createElement('div');
+      card.className = 'tool-card';
+      card.style.animationDelay = (i * 0.03) + 's';
+      card.setAttribute('data-name', tool.name);
+      card.setAttribute('data-desc', tool.desc);
+      card.setAttribute('data-tags', tool.tags.join(' '));
+      card.setAttribute('data-category', cat.name);
+
+      const tagsHTML = tool.tags.map(t => `<span class="tool-tag" onclick="event.stopPropagation();filterByTag('${t}')" title="筛选含「${t}」标签的工具">${t}</span>`).join('');
+      card.innerHTML = `
+        <div class="tool-card-top">
+          <div class="tool-name"><a href="${tool.url}" target="_blank" rel="noopener" title="访问 ${tool.name} 官网">${tool.name}</a></div>
+          <button class="tool-copy" onclick="event.stopPropagation();copyUrl('${tool.url}')" title="复制链接">📋</button>
+        </div>
+        <div class="tool-desc">${tool.desc}</div>
+        <div class="tool-tags">${tagsHTML}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+
+  document.getElementById('countTools').textContent = totalTools;
+  document.getElementById('countVisible').textContent = totalTools;
+  document.getElementById('sidebarCount').textContent = categories.length;
+  buildTagFilter();
+}
+
+/* ══════════════════════════ Tag Filter ══════════════════════════ */
+function buildTagFilter() {
+  const bar = document.getElementById('tagFilterBar');
+  // Keep the label, remove old chips
+  bar.querySelectorAll('.tag-filter-chip,.tag-filter-clear').forEach(el => el.remove());
+
+  // Collect popular tags (top 20 by frequency)
+  const tagCount = {};
+  categories.forEach(cat => {
+    cat.tools.forEach(tool => {
+      tool.tags.forEach(t => { tagCount[t] = (tagCount[t] || 0) + 1; });
+    });
+  });
+  const popular = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 20).map(e => e[0]);
+
+  popular.forEach(tag => {
+    const chip = document.createElement('span');
+    chip.className = 'tag-filter-chip';
+    chip.textContent = tag;
+    chip.onclick = () => filterByTag(tag);
+    bar.appendChild(chip);
+  });
+
+  const clear = document.createElement('span');
+  clear.className = 'tag-filter-clear';
+  clear.textContent = '✕ 清除';
+  clear.onclick = clearTagFilter;
+  bar.appendChild(clear);
+}
+
+function filterByTag(tag) {
+  if (activeTagFilter === tag) { clearTagFilter(); return; }
+  activeTagFilter = tag;
+  document.querySelectorAll('.tag-filter-chip').forEach(c => c.classList.toggle('active', c.textContent === tag));
+  document.querySelector('.tag-filter-clear').classList.add('visible');
+  applyFilters();
+}
+
+function clearTagFilter() {
+  activeTagFilter = null;
+  document.querySelectorAll('.tag-filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('.tag-filter-clear').classList.remove('visible');
+  applyFilters();
+}
+
+/* ══════════════════════════ Search ══════════════════════════ */
+function onSearch() {
+  const val = document.getElementById('searchInput').value;
+  searchQuery = val.trim().toLowerCase();
+  document.getElementById('searchClear').classList.toggle('visible', val.length > 0);
+  applyFilters();
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  applyFilters();
+}
+
+/* ══════════════════════════ Combined Filter ══════════════════════════ */
+function applyFilters() {
+  const cats = document.querySelectorAll('.category');
+  const noResults = document.getElementById('noResults');
+  const searchInfo = document.getElementById('searchInfo');
+  let totalVisible = 0;
+  let anyVisible = false;
+  const hasActiveFilter = searchQuery || activeTagFilter;
+
+  cats.forEach(cat => {
+    const cards = cat.querySelectorAll('.tool-card');
+    let catVisible = false;
+
+    cards.forEach(card => {
+      const name = (card.getAttribute('data-name') || '').toLowerCase();
+      const desc = (card.getAttribute('data-desc') || '').toLowerCase();
+      const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+      const category = (card.getAttribute('data-category') || '').toLowerCase();
+
+      let match = true;
+      if (searchQuery) match = match && (name.includes(searchQuery) || desc.includes(searchQuery) || tags.includes(searchQuery) || category.includes(searchQuery));
+      if (activeTagFilter) match = match && tags.includes(activeTagFilter.toLowerCase());
+
+      card.style.display = match ? '' : 'none';
+      if (match) { catVisible = true; totalVisible++; }
+
+      // Highlight search in name
+      const nameLink = card.querySelector('.tool-name a');
+      if (nameLink) {
+        const orig = nameLink.textContent;
+        if (searchQuery && orig.toLowerCase().includes(searchQuery)) {
+          const re = new RegExp(`(${searchQuery.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');
+          nameLink.innerHTML = orig.replace(re, '<mark>$1</mark>') + '↗';
+        } else if (!searchQuery) {
+          nameLink.textContent = orig;
+        }
+      }
+    });
+
+    cat.style.display = catVisible ? '' : 'none';
+    if (catVisible) anyVisible = true;
+  });
+
+  noResults.classList.toggle('visible', !anyVisible);
+  document.getElementById('countVisible').textContent = totalVisible;
+
+  if (hasActiveFilter) {
+    searchInfo.classList.add('visible');
+    const parts = [];
+    if (searchQuery) parts.push(`关键词「${searchQuery}」`);
+    if (activeTagFilter) parts.push(`标签「${activeTagFilter}」`);
+    searchInfo.textContent = `🔍 ${parts.join(' + ')} — 找到 ${totalVisible} 个工具`;
+  } else {
+    searchInfo.classList.remove('visible');
+  }
+
+  updateSidebarActive();
+}
+
+/* ══════════════════════════ Sidebar Active ══════════════════════════ */
+function updateSidebarActive() {
+  const links = sidebarNav.querySelectorAll('a');
+  let currentId = '';
+  document.querySelectorAll('.category').forEach(cat => {
+    const rect = cat.getBoundingClientRect();
+    if (rect.top < 200 && cat.style.display !== 'none') currentId = cat.id;
+  });
+  links.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+  });
+}
+
+/* ══════════════════════════ Theme ══════════════════════════ */
+function toggleTheme() {
+  const body = document.body;
+  const next = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  body.setAttribute('data-theme', next);
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('ai-tools-theme', next);
+}
+
+/* ══════════════════════════ Sidebar ══════════════════════════ */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════ Copy URL ══════════════════════════ */
+function copyUrl(url) {
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('✅ 链接已复制！');
+  }).catch(() => {
+    showToast('⚠️ 复制失败，请手动复制');
+  });
+}
+
+/* ══════════════════════════ Toast ══════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+/* ══════════════════════════ Scroll ══════════════════════════ */
+function handleScroll() {
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 500);
+  updateSidebarActive();
+  // Scroll progress
+  const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById('scrollProgress').style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+}
+
+/* ══════════════════════════ Init ══════════════════════════ */
+renderAll();
+
+const savedTheme = localStorage.getItem('ai-tools-theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+window.addEventListener('scroll', handleScroll, {passive:true});
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('searchInput').focus(); }
+  if (e.key === 'Escape') { clearSearch(); clearTagFilter(); document.getElementById('searchInput').blur(); }
+});
+</script>
+</body>
+</html>
