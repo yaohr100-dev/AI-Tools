@@ -708,6 +708,17 @@ let recentlyViewed=JSON.parse(localStorage.getItem('ai-tools-recent')||'[]');
 let searchDebounce=null,lastScrollY=0;
 let backendAvailable=false;
 
+/* ─── 设备 ID：隔离每个访问者的数据 ─── */
+function getDeviceId(){
+  let id=localStorage.getItem('ai-tools-device-id');
+  if(!id){
+    id='dev-'+(crypto.randomUUID?crypto.randomUUID():('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);return v.toString(16);})));
+    localStorage.setItem('ai-tools-device-id',id);
+  }
+  return id;
+}
+const deviceId=getDeviceId();
+
 /* ─── 后端数据同步 ─── */
 async function checkBackend(){
   try{
@@ -716,15 +727,15 @@ async function checkBackend(){
     const j=await r.json();
     backendAvailable=(j.status==='ok');
     if(backendAvailable){
-      // 从后端加载数据（后端数据优先）
+      // 从后端加载自己的数据（按设备隔离）
       try{
-        const f=await fetch('/api/favorites');
+        const f=await fetch('/api/favorites?device='+encodeURIComponent(deviceId));
         const fdata=await f.json();
         if(Array.isArray(fdata.favorites)&&fdata.favorites.length>=0){
           favorites=fdata.favorites;
           localStorage.setItem('ai-tools-favs',JSON.stringify(favorites));
         }
-        const rec=await fetch('/api/recent');
+        const rec=await fetch('/api/recent?device='+encodeURIComponent(deviceId));
         const rdata=await rec.json();
         if(Array.isArray(rdata.recent)&&rdata.recent.length>=0){
           recentlyViewed=rdata.recent;
@@ -740,14 +751,14 @@ async function checkBackend(){
 function syncFavorites(){
   localStorage.setItem('ai-tools-favs',JSON.stringify(favorites));
   if(backendAvailable){
-    fetch('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({favorites})}).catch(()=>{});
+    fetch('/api/favorites',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device:deviceId,favorites})}).catch(()=>{});
   }
 }
 
 function syncRecent(){
   localStorage.setItem('ai-tools-recent',JSON.stringify(recentlyViewed));
   if(backendAvailable){
-    fetch('/api/recent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recent:recentlyViewed})}).catch(()=>{});
+    fetch('/api/recent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({device:deviceId,recent:recentlyViewed})}).catch(()=>{});
   }
 }
 

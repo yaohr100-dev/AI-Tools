@@ -82,8 +82,9 @@ function ensureDirs() {
 
 function defaultData() {
   return {
-    favorites: [],
-    recent: [],
+    // 按设备 ID 隔离的每用户数据
+    users: {},
+    // 全局统计（不涉及个人数据）
     stats: {
       visits: 0,
       uniqueVisitors: 0,
@@ -99,10 +100,20 @@ function loadData() {
     if (!fs.existsSync(DATA_FILE)) return defaultData();
     const raw = fs.readFileSync(DATA_FILE, 'utf8');
     const parsed = JSON.parse(raw);
-    // 校验并合并默认结构，防止脏数据
     const data = defaultData();
-    if (Array.isArray(parsed.favorites)) data.favorites = parsed.favorites;
-    if (Array.isArray(parsed.recent)) data.recent = parsed.recent;
+    // 旧格式迁移：{ favorites, recent, stats } → { users: { legacy: {...} }, stats }
+    if (parsed.users && typeof parsed.users === 'object') {
+      data.users = parsed.users;
+    } else if (Array.isArray(parsed.favorites) || Array.isArray(parsed.recent)) {
+      // 旧格式，迁移到 legacy 用户
+      data.users = {
+        legacy: {
+          favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
+          recent: Array.isArray(parsed.recent) ? parsed.recent : [],
+        },
+      };
+      console.log(paint('[数据层] 检测到旧格式数据，已迁移到设备隔离结构', 'yellow'));
+    }
     if (parsed.stats && typeof parsed.stats === 'object') {
       Object.assign(data.stats, parsed.stats);
       if (!Array.isArray(data.stats.visitorIPs)) data.stats.visitorIPs = [];
@@ -291,6 +302,24 @@ function sanitizeStringArray(arr, maxLen) {
   return arr.filter(x => typeof x === 'string' && x.length > 0 && x.length <= 200).slice(0, maxLen);
 }
 
+/* 设备 ID 校验：只允许 UUID 风格的字符，长度 8~64，防注入任意 key */
+function sanitizeDeviceId(id) {
+  if (typeof id !== 'string') return null;
+  const trimmed = id.trim();
+  if (!/^[a-zA-Z0-9-]{8,64}$/.test(trimmed)) return null;
+  return trimmed;
+}
+
+/* 获取指定设备的数据，不存在则创建空结构 */
+function getUserData(deviceId) {
+  if (!cache.users[deviceId]) {
+    cache.users[deviceId] = { favorites: [], recent: [] };
+  }
+  if (!Array.isArray(cache.users[deviceId].favorites)) cache.users[deviceId].favorites = [];
+  if (!Array.isArray(cache.users[deviceId].recent)) cache.users[deviceId].recent = [];
+  return cache.users[deviceId];
+}
+
 /* ═══════════════════ API 路由 ═══════════════════ */
 async function handleApi(req, res, pathname, ip) {
   const method = req.method;
@@ -306,48 +335,69 @@ async function handleApi(req, res, pathname, ip) {
     }, req);
   }
 
-  // 收藏 - 列表
+  // 收藏 - 列表（按设备隔离）
   if (pathname === '/api/favorites') {
-    if (method === 'GET') return sendJSON(res, 200, { favorites: cache.favorites }, req);
+    if (method === 'GET') {
+      const url = new URL(req.url, 'http://localhost');
+      const deviceId = sanitizeDeviceId(url.searchParams.get('device') || '');
+      if (!deviceId) return sendJSON(res, 400, { error: '缺少或非法的 device 参数' }, req);
+      const user = getUserData(deviceId);
+      return sendJSON(res, 200, { favorites: user.favorites }, req);
+    }
     if (method === 'POST' || method === 'PUT') {
       const body = await readBody(req);
+      const deviceId = sanitizeDeviceId(body.device);
+      if (!deviceId) return sendJSON(res, 400, { error: '缺少或非法的 device 参数' }, req);
       const favs = sanitizeStringArray(body.favorites, CONFIG.maxFavorites);
       if (favs === null) return sendJSON(res, 400, { error: 'favorites 必须是字符串数组' }, req);
-      cache.favorites = favs;
+      const user = getUserData(deviceId);
+      user.favorites = favs;
       scheduleWrite();
-      return sendJSON(res, 200, { ok: true, count: cache.favorites.length }, req);
+      return sendJSON(res, 200, { ok: true, count: user.favorites.length }, req);
     }
   }
 
-  // 收藏 - 单项操作
+  // 收藏 - 单项操作（按设备隔离）
   if (pathname === '/api/favorites/toggle') {
     if (method === 'POST') {
       const body = await readBody(req);
+      const deviceId = sanitizeDeviceId(body.device);
+      if (!deviceId) return sendJSON(res, 400, { error: '缺少或非法的 device 参数' }, req);
       const id = typeof body.id === 'string' ? body.id.trim() : '';
       if (!id) return sendJSON(res, 400, { error: '缺少 id' }, req);
-      const idx = cache.favorites.indexOf(id);
+      const user = getUserData(deviceId);
+      const idx = user.favorites.indexOf(id);
       let added = false;
-      if (idx > -1) { cache.favorites.splice(idx, 1); }
-      else { cache.favorites.push(id); added = true; }
-      if (cache.favorites.length > CONFIG.maxFavorites) cache.favorites = cache.favorites.slice(-CONFIG.maxFavorites);
+      if (idx > -1) { user.favorites.splice(idx, 1); }
+      else { user.favorites.push(id); added = true; }
+      if (user.favorites.length > CONFIG.maxFavorites) user.favorites = user.favorites.slice(-CONFIG.maxFavorites);
       scheduleWrite();
-      return sendJSON(res, 200, { ok: true, added, count: cache.favorites.length }, req);
+      return sendJSON(res, 200, { ok: true, added, count: user.favorites.length }, req);
     }
   }
 
-  // 最近浏览 - 列表
+  // 最近浏览 - 列表（按设备隔离）
   if (pathname === '/api/recent') {
-    if (method === 'GET') return sendJSON(res, 200, { recent: cache.recent }, req);
+    if (method === 'GET') {
+      const url = new URL(req.url, 'http://localhost');
+      const deviceId = sanitizeDeviceId(url.searchParams.get('device') || '');
+      if (!deviceId) return sendJSON(res, 400, { error: '缺少或非法的 device 参数' }, req);
+      const user = getUserData(deviceId);
+      return sendJSON(res, 200, { recent: user.recent }, req);
+    }
     if (method === 'POST' || method === 'PUT') {
       const body = await readBody(req);
+      const deviceId = sanitizeDeviceId(body.device);
+      if (!deviceId) return sendJSON(res, 400, { error: '缺少或非法的 device 参数' }, req);
       const recent = sanitizeStringArray(
         Array.isArray(body.recent) ? body.recent : body.recent?.map?.(r => r.id),
         CONFIG.maxRecent
       );
       if (recent === null) return sendJSON(res, 400, { error: 'recent 数据格式错误' }, req);
-      cache.recent = recent;
+      const user = getUserData(deviceId);
+      user.recent = recent;
       scheduleWrite();
-      return sendJSON(res, 200, { ok: true, count: cache.recent.length }, req);
+      return sendJSON(res, 200, { ok: true, count: user.recent.length }, req);
     }
   }
 
