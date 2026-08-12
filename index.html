@@ -309,7 +309,7 @@ mark{background:rgba(255,225,80,0.45);color:inherit;border-radius:2px;padding:0 
       <button class="toolbar-btn" onclick="copyVisibleLinks()" data-i18n="btnCopyLinks">📋 复制可见链接</button>
       <button class="toolbar-btn" onclick="shareCurrentView()" data-i18n="btnShare">🔗 分享视图</button>
       <span class="toolbar-spacer"></span>
-      <span style="font-size:11px;color:var(--text-muted)">🆓Free 🔄Freemium 💰Paid 🔓OSS &nbsp;|&nbsp; <span data-i18n="tagHint">点标签多选筛选</span></span>
+      <span style="font-size:11px;color:var(--text-muted)"><span data-i18n="pricingLegend">🆓免费 🔄部分免费 💰付费 🔓开源</span> &nbsp;|&nbsp; <span data-i18n="tagHint">点标签多选筛选</span></span>
     </div>
 
     <div class="recent-bar" id="recentBar"><span class="label" data-i18n="recentLabel">🕐 最近浏览</span><div class="chips" id="recentChips"></div><button class="recent-clear" onclick="clearRecent()" data-i18n="recentClear">清除</button></div>
@@ -359,7 +359,7 @@ const UI={
     statCat:"📂 分类",statTools:"🛠️ 工具",statFree:"🆓/🔓 免费/开源",statFav:"❤️ 已收藏",
     sortDefault:"📋 默认排序",sortAz:"🔤 A → Z",sortZa:"🔤 Z → A",
     btnExport:"📤 导出收藏",btnCopyLinks:"📋 复制可见链接",btnShare:"🔗 分享视图",
-    tagHint:"点标签多选筛选",recentLabel:"🕐 最近浏览",recentClear:"清除",
+    tagHint:"点标签多选筛选",recentLabel:"🕐 最近浏览",recentClear:"清除",pricingLegend:"🆓免费 🔄部分免费 💰付费 🔓开源",
     filterLabel:"筛选条件",filterClearAll:"清除全部",tagBarLabel:"🏷️ 快捷筛选",
     noResultTitle:"没有找到匹配的工具",noResultDesc:"试试其他关键词，或清除筛选条件",
     kbdTitle:"⌨️ 快捷键 & 使用说明",kbdSearch:"聚焦搜索框",kbdEsc:"清除所有筛选",
@@ -382,7 +382,7 @@ const UI={
     statCat:"📂 Categories",statTools:"🛠️ Tools",statFree:"🆓/🔓 Free/OSS",statFav:"❤️ Favorites",
     sortDefault:"📋 Default",sortAz:"🔤 A → Z",sortZa:"🔤 Z → A",
     btnExport:"📤 Export Favorites",btnCopyLinks:"📋 Copy Visible Links",btnShare:"🔗 Share View",
-    tagHint:"Click tags to filter",recentLabel:"🕐 Recent",recentClear:"Clear",
+    tagHint:"Click tags to filter",recentLabel:"🕐 Recent",recentClear:"Clear",pricingLegend:"🆓Free 🔄Freemium 💰Paid 🔓OSS",
     filterLabel:"Filters",filterClearAll:"Clear All",tagBarLabel:"🏷️ Quick Filters",
     noResultTitle:"No matching tools found",noResultDesc:"Try different keywords or clear filters",
     kbdTitle:"⌨️ Keyboard Shortcuts",kbdSearch:"Focus search",kbdEsc:"Clear all filters",
