@@ -339,7 +339,6 @@ body::before{
 .tool-card::after{content:"";position:absolute;inset:-1px;border-radius:var(--radius);background:linear-gradient(135deg,var(--grad-1),var(--grad-2),var(--grad-3));opacity:0;transition:opacity 0.3s ease;z-index:-1}
 .tool-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:transparent}
 .tool-card:hover::after{opacity:1}
-.tool-card:hover::before{opacity:1}
 .tool-card.favorited{border-color:rgba(244,63,94,0.25)}
 .tool-card.favorited::after{background:linear-gradient(135deg,var(--favorite),#fb7185);z-index:-1}
 
@@ -352,8 +351,8 @@ body::before{
   display:inline-flex;align-items:center;gap:5px;overflow:hidden;text-overflow:ellipsis;
 }
 .tool-name a::after{content:"↗";font-size:12px;opacity:0.28;transition:all 0.25s var(--ease);flex-shrink:0}
-.tool-card:hover .tool-name a{color:var(--accent)}
-.tool-card:hover .tool-name a::after{opacity:1;transform:translate(2px,-2px)}
+.tool-card:hover .tool-name a{color:var(--text)}
+.tool-card:hover .tool-name a::after{opacity:1;color:var(--accent)}
 
 .pricing-badge{
   font-size:10.5px;padding:3px 8px;border-radius:5px;font-weight:700;
